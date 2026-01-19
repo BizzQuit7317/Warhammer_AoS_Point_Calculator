@@ -12,3 +12,6 @@ when retrying names I want 2 methods, first keeping a track of like common mispe
 depending on efficency and data storage might noot be feasable.
 Trying common mistakes, if this works well might not need first, but again trying to pluralise things or adding with or something other spot, 
 this will be more limited by time retrying ssomething, could use async function to send multiple retry requests or for multi unit lists then have it re roll on units it cannot find.
+
+# Info
+- Discord bot name: AoS_Wahapedia_Scraper
