@@ -1,6 +1,6 @@
 class Agent():
     def __init__(self):
-        self.faction = None
+        self.faction = None #None by default
         self.factions_list = [ #A list of all faction from wahapedia to ominimise mistakes
     "Cities of Sigmar",
     "Daughters of Khaine",
