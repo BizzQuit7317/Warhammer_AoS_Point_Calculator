@@ -35,6 +35,9 @@ class Scraper():
 
         html = requests.request("GET", full_url)
         return html
+    
+    def collect_faction_units(self):
+        print("raw_html")
 
     def collect_points(self, raw_html: str) -> int:
         try:
