@@ -1,4 +1,4 @@
-import requests, test_functions as tf
+import requests, functions as tf
 
 base_url = "https://wahapedia.ru/aos4/factions/" #https://wahapedia.ru/aos4/factions/seraphon/Spawn-of-Chotec
 
