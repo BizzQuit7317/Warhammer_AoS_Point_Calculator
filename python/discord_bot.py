@@ -57,6 +57,9 @@ async def get_points(ctx, unit):
     else:
         await ctx.send(f"{unit} is {points} points.")
 
+"""
+Bring this back as needed when error are occuring
+
 @bot.command()
 @is_correct_channel()
 async def fetch_logs(ctx):
@@ -120,6 +123,6 @@ def gather_logs(lines):
     final_column_order = [c for c in priority_cols if c in df.columns] + other_cols
     df = df[final_column_order]
     df.to_csv("error_point_names.csv", index=False)
-
+"""
 
 bot.run(config['discord']['token'])
