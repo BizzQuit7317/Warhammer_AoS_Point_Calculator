@@ -49,18 +49,19 @@ class Scraper():
         """
         returns a list to keep track of working unit name
         index 0 -> points
-        index 1 -> working name/original name if none work
+        index 1 -> list of names tried
         will go through a series of checks and potential test
         1. pluralising
         """
         original_name = unit_name # Buffer to keep track of the original name o we can return the latest name used
+        names_tried = []
 
         unit_name = f"{unit_name}s"
         points = self.collect_points(self.scrape(unit_name))
 
         if points != 0:
-            return [points, unit_name]
+            return [points, [unit_name]]
         
-        return [0, original_name]
+        return [0, [original_name]]
 
         
