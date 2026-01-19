@@ -1,5 +1,4 @@
 from scraper_class import Scraper
-import asyncio
 
 
 scraper = Scraper("seraphon")
@@ -8,7 +7,7 @@ list_of_units = [
     "Skink",
     "Saruas",
     "Saruas Oldblood",
-    "Skink Oracle on Trogolodon",
+    "Skink Oracle on Troglodon",
     "Skink Starpriest",
     "Skink Starseer",
     "Kroxigor",
