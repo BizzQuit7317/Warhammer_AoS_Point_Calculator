@@ -48,6 +48,7 @@ list_of_units = [
 
 for unit in list_of_units:
     x = scraper.collect_points(scraper.scrape(unit))
-    print(f"{unit} is worth {x} points!")
-
-print("~~~~~~~~~~~~~~~~~~~~~\n|\n| Finished running!! |\n|\n~~~~~~~~~~~~~~~~~~~~~")
+    if x == 0:
+        print(f"Issue with {unit}!!!")
+    else:
+        print(f"{unit} is worth {x} points!")
