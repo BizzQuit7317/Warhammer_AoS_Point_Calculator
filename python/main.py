@@ -1,4 +1,5 @@
 from scraper_class import Scraper
+import asyncio
 
 
 scraper = Scraper("seraphon")
@@ -49,6 +50,10 @@ list_of_units = [
 for unit in list_of_units:
     x = scraper.collect_points(scraper.scrape(unit))
     if x == 0:
-        print(f"Issue with {unit}!!!")
+        y = scraper.collect_points_name_retry(unit)
+        if y[0] == 0:
+            print(f"Issue with {y[1]}!!!")
+        else:
+            print(f"Did you mean {y[1]}? they're worth {y[0]} points!")
     else:
         print(f"{unit} is worth {x} points!")
