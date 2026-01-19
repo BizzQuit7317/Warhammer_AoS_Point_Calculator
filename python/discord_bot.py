@@ -1,6 +1,7 @@
 import discord, toml
 from discord.ext import commands
 from scraper_class import Scraper
+import pandas as pd
 
 config = toml.load("config.toml")
 
@@ -44,9 +45,63 @@ async def get_points(ctx, faction, unit):
 @is_correct_channel()
 async def fetch_logs(ctx):
     debug_channel = bot.get_channel(config['discord']['debug_channel_id'])
+    lines = []
     async for message in debug_channel.history(limit=100):
         if message.content.startswith("[DBG]"):
-            print(f"{message.content}")
+            lines.append(message.content)
+    await ctx.send(f"Generating CSV file....")
+    gather_logs(lines)
+    await ctx.send(f"CSV file generaated.")
+
+
+def gather_logs(lines):
+    dbg_blocks = []
+    current_block = {}  # Start with an empty dictionary
+    end_flag = False
+    var_counter = 0
+
+    for text in lines:
+        if text == "[DBG][START]":
+            # If we have data in current_block, save it before starting a new one
+            if current_block:
+                dbg_blocks.append(current_block)
+            current_block = {} # Reset to a fresh dict
+            end_flag = False
+            var_counter = 0
+            continue # Skip to next line
+
+        if text == "[DBG][END]":
+            end_flag = True
+            continue
+
+        if end_flag:
+            if "faction:" in text and "unit:" in text:
+                # Create a small temp dict for the new data
+                new_data = {
+                    "faction": text.split("faction: ")[1].split(",")[0], 
+                    "unit": text.split("unit: ")[1].split(",")[0]
+                }
+            else:
+                clean_text = text.replace("DBG", "").replace("[", "").replace("]", "")
+                new_data = {f"unit_vars{var_counter}": clean_text}
+                var_counter += 1
+            
+            # MERGE into the current block immediately
+            current_block.update(new_data)
+
+    # Don't forget to append the very last block after the loop finishes
+    if current_block:
+        dbg_blocks.append(current_block)
+
+    df = pd.DataFrame(dbg_blocks)
+
+    priority_cols = ["faction", "unit"]
+    other_cols = [c for c in df.columns if c not in priority_cols]
+    other_cols.sort()
+
+    final_column_order = [c for c in priority_cols if c in df.columns] + other_cols
+    df = df[final_column_order]
+    df.to_csv("error_point_names.csv")
 
 
 bot.run(config['discord']['token'])
