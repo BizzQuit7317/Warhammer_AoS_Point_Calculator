@@ -46,7 +46,7 @@ async def get_points(ctx, faction, unit):
 async def fetch_logs(ctx):
     debug_channel = bot.get_channel(config['discord']['debug_channel_id'])
     lines = []
-    async for message in debug_channel.history(limit=100):
+    async for message in debug_channel.history(limit=10000): #10k is arbitrary number of logs a long ass the csv iss ssmaller than 25MB
         if message.content.startswith("[DBG]"):
             lines.append(message.content)
     await ctx.send(f"Generating CSV file....")
