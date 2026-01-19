@@ -21,6 +21,7 @@ async def on_ready():
 @bot.command()
 @is_correct_channel()
 async def get_points(ctx, faction, unit):
+    debug_channel = bot.get_channel(config['discord']['debug_channel_id'])
     await ctx.send(f"Searching for {unit}, from the {faction}")
     scraper = Scraper(faction)
     points = scraper.collect_points(scraper.scrape(unit))
@@ -29,8 +30,11 @@ async def get_points(ctx, faction, unit):
         points_check =  scraper.collect_points_name_retry(unit)
         if points_check[0] == 0:
             await ctx.send(f"{unit} couldn't be found under any simmillar names.")
+            await debug_channel.send(f"[DBG]Issue looking for faction: {faction}, unit: {unit}, other names checked: ")
+            for name in points_check[1]:
+                await debug_channel.send(f"[DBG]{name}")
         else:
-            await ctx.send(f"{points_check[1]} was found! it is {points} points.")
+            await ctx.send(f"{points_check[1][0]} was found! it is {points_check[0]} points.")
     else:
         await ctx.send(f"{unit} is {points} points.")
     
