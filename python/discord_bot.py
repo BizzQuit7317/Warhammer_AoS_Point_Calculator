@@ -30,9 +30,11 @@ async def get_points(ctx, faction, unit):
         points_check =  scraper.collect_points_name_retry(unit)
         if points_check[0] == 0:
             await ctx.send(f"{unit} couldn't be found under any simmillar names.")
+            await debug_channel.send(f"[DBG][BLOCK START]")
             await debug_channel.send(f"[DBG]Issue looking for faction: {faction}, unit: {unit}, other names checked: ")
             for name in points_check[1]:
                 await debug_channel.send(f"[DBG]{name}")
+            await debug_channel.send(f"[DBG][BLOCK START]")
         else:
             await ctx.send(f"{points_check[1][0]} was found! it is {points_check[0]} points.")
     else:
