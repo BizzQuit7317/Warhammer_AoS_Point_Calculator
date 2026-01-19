@@ -1,4 +1,4 @@
-import discord, toml
+import discord, toml, io
 from discord.ext import commands
 from scraper_class import Scraper
 import pandas as pd
@@ -51,7 +51,9 @@ async def fetch_logs(ctx):
             lines.append(message.content)
     await ctx.send(f"Generating CSV file....")
     gather_logs(lines)
-    await ctx.send(f"CSV file generaated.")
+    with open("error_point_names.csv", "rb") as f:
+        file_to_upload = discord.File(f, filename="error_point_names.csv")
+        await ctx.send("CSV file generated.", file=file_to_upload)
 
 
 def gather_logs(lines):
@@ -101,7 +103,7 @@ def gather_logs(lines):
 
     final_column_order = [c for c in priority_cols if c in df.columns] + other_cols
     df = df[final_column_order]
-    df.to_csv("error_point_names.csv")
+    df.to_csv("error_point_names.csv", index=False)
 
 
 bot.run(config['discord']['token'])
