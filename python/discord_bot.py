@@ -24,7 +24,7 @@ async def on_ready():
 @bot.command()
 @is_correct_channel()
 async def check_stats(ctx):
-    print(ctx.bot.agent.faction)
+    await ctx.send(f"Your current faction is {ctx.bot.agent.faction}")
 
 @bot.command()
 @is_correct_channel()
