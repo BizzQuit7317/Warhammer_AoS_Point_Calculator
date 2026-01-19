@@ -36,7 +36,7 @@ class Scraper():
         html = requests.request("GET", full_url)
         return html
 
-    def collect_points(self, raw_html: str) -> int:
+    def collect_points(self, raw_html: str) -> list:
         try:
             points = list(map(int, re.findall(r"\d+", raw_html.text.split("Points")[1][:19]))) #17 gets us to the first digit, 19 will cover all digits since there are no 4 digit point units in aos
             if len(points) != 1:
