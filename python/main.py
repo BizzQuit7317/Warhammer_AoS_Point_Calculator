@@ -51,8 +51,8 @@ for unit in list_of_units:
     if x == 0:
         y = scraper.collect_points_name_retry(unit)
         if y[0] == 0:
-            print(f"Issue with {y[1]}!!!")
+            print(f"Issue with {y[1][0]}!!!")
         else:
-            print(f"Did you mean {y[1]}? they're worth {y[0]} points!")
+            print(f"Did you mean {y[1][0]}? they're worth {y[0]} points!")
     else:
         print(f"{unit} is worth {x} points!")
