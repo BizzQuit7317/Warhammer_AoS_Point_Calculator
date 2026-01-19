@@ -45,5 +45,22 @@ class Scraper():
         except:
             return 0
     
-    def collect_points_name_retry(self, raw_html: str) -> int:
-        print("coming soon....")
+    def collect_points_name_retry(self, unit_name: str) -> list:
+        """
+        returns a list to keep track of working unit name
+        index 0 -> points
+        index 1 -> working name/original name if none work
+        will go through a series of checks and potential test
+        1. pluralising
+        """
+        original_name = unit_name # Buffer to keep track of the original name o we can return the latest name used
+
+        unit_name = f"{unit_name}s"
+        points = self.collect_points(self.scrape(unit_name))
+
+        if points != 0:
+            return [points, unit_name]
+        
+        return [0, original_name]
+
+        
