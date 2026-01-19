@@ -56,14 +56,14 @@ class Scraper():
         original_name = unit_name # Buffer to keep track of the original name o we can return the latest name used
         names_tried = []
 
-        unit_name = f"{unit_name}s"
-        points = self.collect_points(self.scrape(unit_name))
+        unit_name_plural = f"{unit_name}s"
+        points = self.collect_points(self.scrape(unit_name_plural))
 
-        names_tried.append(unit_name)
-        
+        names_tried.append(unit_name_plural)
+
         if points != 0:
             return [points, names_tried]
         
-        return [0, [original_name]]
+        return [0, names_tried]
 
         
