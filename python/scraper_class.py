@@ -37,7 +37,22 @@ class Scraper():
         return html
     
     def collect_faction_units(self) -> list:
-        return ["test", "test", "test"]
+        full_url = f"{self.base_url}/{self.faction}/warscrolls.html"
+        raw_html = requests.request("GET", full_url)
+    
+        snippet = raw_html.text.split("<!--/noindex-->")[1] #Randomly lucky comment I can use to reduce the snippet
+
+        parts = snippet.split('href="#')[1:]
+        unit_ids = []
+
+        for part in parts:
+            # Grab everything until the closing quote "
+            id_name = part.split('"')[0]
+            if id_name:
+                unit_ids.append(id_name)
+
+        clean_list = [name.replace("-", " ") for name in unit_ids]
+        return sorted(list(set(clean_list)))
 
     def collect_points(self, raw_html: str) -> int:
         try:
