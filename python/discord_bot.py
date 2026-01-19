@@ -2,6 +2,7 @@ import discord, toml, io
 from discord.ext import commands
 from scraper_class import Scraper
 import pandas as pd
+from discord_agent import Agent
 
 config = toml.load("config.toml")
 
@@ -9,6 +10,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
+bot.agent = Agent()
 
 def is_correct_channel():
     async def predicate(ctx):
@@ -21,10 +23,24 @@ async def on_ready():
 
 @bot.command()
 @is_correct_channel()
-async def get_points(ctx, faction, unit):
+async def check_stats(ctx):
+    print(ctx.bot.agent.faction)
+
+@bot.command()
+@is_correct_channel()
+async def set_faction(ctx, faction):
+    ctx.bot.agent.faction = faction
+    await ctx.send(f"Faction has been set to {faction}")
+
+
+@bot.command()
+@is_correct_channel()
+async def get_points(ctx, unit):
+    if ctx.bot.agent.faction == None:
+        await ctx.send(f"Your faction is None run !set_faction <faction name>")
     debug_channel = bot.get_channel(config['discord']['debug_channel_id'])
-    await ctx.send(f"Searching for {unit}, from the {faction}")
-    scraper = Scraper(faction)
+    await ctx.send(f"Searching for {unit}, from the {ctx.bot.agent.faction}")
+    scraper = Scraper(ctx.bot.agent.faction)
     points = scraper.collect_points(scraper.scrape(unit))
     if points == 0:
         await ctx.send(f"{unit} couldn't be found checking other names.....")
@@ -32,7 +48,7 @@ async def get_points(ctx, faction, unit):
         if points_check[0] == 0:
             await ctx.send(f"{unit} couldn't be found under any simmillar names.")
             await debug_channel.send(f"[DBG][START]")
-            await debug_channel.send(f"[DBG]Issue looking for faction: {faction}, unit: {unit}, other names checked: ")
+            await debug_channel.send(f"[DBG]Issue looking for faction: {ctx.bot.agent.faction}, unit: {unit}, other names checked: ")
             for name in points_check[1]:
                 await debug_channel.send(f"[DBG]{name}")
             await debug_channel.send(f"[DBG][END]")
