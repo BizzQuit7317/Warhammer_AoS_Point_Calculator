@@ -23,8 +23,12 @@ async def on_ready():
 
 @bot.command()
 @is_correct_channel()
-async def check_stats(ctx):
-    await ctx.send(f"Your current faction is {ctx.bot.agent.faction}")
+async def check_stats(ctx, stat):
+    if stat.lower() == "faction":
+        await ctx.send(f"Your current faction is {ctx.bot.agent.faction}")
+    if stat.lower() == "list factions":
+        formatted_list = "\n".join([f"• {faction}" for faction in ctx.bot.agent.factions_list])
+        await ctx.send(f"**Available Warhammer AoS Factions:**\n```text\n{formatted_list}\n```")
 
 @bot.command()
 @is_correct_channel()
@@ -32,6 +36,15 @@ async def set_faction(ctx, faction):
     ctx.bot.agent.faction = faction
     await ctx.send(f"Faction has been set to {faction}")
 
+@bot.command()
+@is_correct_channel()
+async def check_units(ctx):
+    if ctx.bot.agent.faction == None:
+        await ctx.send(f"Your faction is None run !set_faction <faction name>")
+    scraper = Scraper(ctx.bot.agent.faction)
+    units = scraper.collect_faction_units()
+    formatted_list = "\n".join([f"• {unit}" for unit in units])
+    await ctx.send(f"**Available {ctx.bot.agent.faction} units:**\n```text\n{formatted_list}\n```")
 
 @bot.command()
 @is_correct_channel()
