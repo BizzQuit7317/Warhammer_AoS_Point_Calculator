@@ -59,8 +59,10 @@ class Scraper():
         unit_name = f"{unit_name}s"
         points = self.collect_points(self.scrape(unit_name))
 
+        names_tried.append(unit_name)
+        
         if points != 0:
-            return [points, [unit_name]]
+            return [points, names_tried]
         
         return [0, [original_name]]
 
