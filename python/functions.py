@@ -5,7 +5,7 @@ def format_user_unit_input(unit_raw: str) -> str:
     unit_formatted_buffer = []
 
     for word in unit_split:
-        if len(word) > 2:
+        if len(word) > 2: # 2 to parse any words like "it" and "of" to keep them lower case
             word = word.capitalize()
         else:
             word = word.lower()
