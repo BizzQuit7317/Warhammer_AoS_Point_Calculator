@@ -1,6 +1,6 @@
 from scraper_class import Scraper
 
-"""
+
 scraper = Scraper("seraphon")
 
 list_of_units = [
@@ -28,8 +28,6 @@ list_of_units = [
     "Dreadlord on Black Dragon",
     "Freeguild Command Corps",
     "The Steel Rook",
-
-    # Additional Cities of Sigmar units
     "Freeguild Steelhelms",
     "Freeguild Cavalier-Marshal",
     "Freeguild Cavaliers",
@@ -46,9 +44,10 @@ list_of_units = [
     "Black Guard",
     "Sorceress"
 ]
-
+"""
 
 for unit in list_of_units:
-    scraper.scrape(unit)
+    x = scraper.collect_points(scraper.scrape(unit))
+    print(f"{unit} is worth {x} points!")
 
 print("~~~~~~~~~~~~~~~~~~~~~\n|\n| Finished running!! |\n|\n~~~~~~~~~~~~~~~~~~~~~")
