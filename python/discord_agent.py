@@ -32,3 +32,4 @@ class Agent():
     "Endless Spells",
 ]
         self.current_army_list = []
+        self.current_army_points = 0
