@@ -23,10 +23,15 @@ async def on_ready():
 
 @bot.command()
 @is_correct_channel()
+async def man(ctx):
+    await ctx.send(f"This is the man page hopefully it helps, remeber if your using a unit or army with a space wrap it in ""\nYou can check you current faction with or check all factions: !check_stats <faction/list_factions>\nYou can set a faction with: !set_faction <faction name>\nYou can check all units in a faction with: !check_units\nYou can check the points for a unit in your set faction with: !get_points <unit>")
+
+@bot.command()
+@is_correct_channel()
 async def check_stats(ctx, stat):
     if stat.lower() == "faction":
         await ctx.send(f"Your current faction is {ctx.bot.agent.faction}")
-    if stat.lower() == "list factions":
+    if stat.lower() == "list_factions":
         formatted_list = "\n".join([f"• {faction}" for faction in ctx.bot.agent.factions_list])
         await ctx.send(f"**Available Warhammer AoS Factions:**\n```text\n{formatted_list}\n```")
 
