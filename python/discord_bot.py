@@ -1,4 +1,4 @@
-import discord, toml, io
+import discord, toml, io, asyncio
 from discord.ext import commands
 from scraper_class import Scraper
 import pandas as pd
@@ -86,6 +86,30 @@ async def army_list(ctx, option):
         formatted_list = "\n".join([f"• {army}" for army in ctx.bot.agent.current_army_list])
         await ctx.send(f"**Current Army List:**\n```text\n{formatted_list}\n```")
     if option == "add_unit":
-        print("need some function to add units to this list or maybe df???")
+        await ctx.send(f"What unit from the {ctx.bot.agent.faction} would you like to add")
+
+        # This check ensures only the person who ran the command can answer
+        def check(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+        
+        try:
+            # Wait for 30 seconds for a response
+            msg = await ctx.bot.wait_for('message', check=check, timeout=30.0)
+            
+            unit_name = msg.content
+            if unit_name.lower() == 'cancel':
+                return await ctx.send("Unit addition cancelled.")
+
+            scraper = Scraper(ctx.bot.agent.faction)
+            points = scraper.collect_points(scraper.scrape(msg.content))
+            
+            if points != 0:
+                ctx.bot.agent.current_army_list.append([unit_name, points])
+                await ctx.send(f"✅ Successfully added **{unit_name}** to your army list!")
+            else:
+                await ctx.send(f"Failed adding **{unit_name}** to your army list! Check units for spellings")
+
+        except asyncio.TimeoutError:
+            await ctx.send("⏳ You took too long to respond. Command timed out.")
 
 bot.run(config['discord']['token'])
