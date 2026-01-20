@@ -114,4 +114,28 @@ async def army_list(ctx, option):
         except asyncio.TimeoutError:
             await ctx.send("⏳ You took too long to respond. Command timed out.")
 
+    if option == "drop_unit":
+        await ctx.send(f"What unit from the {ctx.bot.agent.faction} would you like to remove")
+
+        # This check ensures only the person who ran the command can answer
+        def check(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+        
+        try:
+            # Wait for 30 seconds for a response
+            msg = await ctx.bot.wait_for('message', check=check, timeout=30.0)
+            
+            unit_name = msg.content
+            if unit_name.lower() == 'cancel':
+                return await ctx.send("Unit addition cancelled.")
+
+            for i, sublist in enumerate(ctx.bot.agent.current_army_list):
+                if sublist[0] == msg.content:
+                    ctx.bot.agent.current_army_list.pop(i)  # Remove the item at this specific index
+                    break
+            await ctx.send(f"✅ Successfully removed **{unit_name}** from your army list!")
+
+        except asyncio.TimeoutError:
+            await ctx.send("⏳ You took too long to respond. Command timed out.")
+
 bot.run(config['discord']['token'])
