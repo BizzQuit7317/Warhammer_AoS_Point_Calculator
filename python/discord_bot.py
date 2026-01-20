@@ -17,6 +17,17 @@ def is_correct_channel():
         return ctx.channel.id == config['discord']['channel_id']
     return commands.check(predicate)
 
+def is_faction_none():
+    async def checker(ctx):
+        if ctx.bot.agent.faction is not None:
+            return True
+        
+        # Send message directly
+        await ctx.send("❌ Error: No faction has been assigned to the bot yet.")
+        return False
+        
+    return commands.check(checker)
+
 @bot.event
 async def on_ready():
     print(f"Success!!! logged in as {bot.user}")
@@ -43,9 +54,8 @@ async def set_faction(ctx, faction):
 
 @bot.command()
 @is_correct_channel()
+@is_faction_none()
 async def check_units(ctx):
-    if ctx.bot.agent.faction == None:
-        await ctx.send(f"Your faction is None run !set_faction <faction name>")
     scraper = Scraper(ctx.bot.agent.faction)
     units = scraper.collect_faction_units()
     formatted_list = "\n".join([f"• {unit}" for unit in units])
@@ -53,9 +63,8 @@ async def check_units(ctx):
 
 @bot.command()
 @is_correct_channel()
+@is_faction_none()
 async def get_points(ctx, unit):
-    if ctx.bot.agent.faction == None:
-        await ctx.send(f"Your faction is None run !set_faction <faction name>")
     await ctx.send(f"Searching for {unit}, from the {ctx.bot.agent.faction}")
     scraper = Scraper(ctx.bot.agent.faction)
     points = scraper.collect_points(scraper.scrape(unit))
@@ -71,6 +80,7 @@ async def get_points(ctx, unit):
 
 @bot.command()
 @is_correct_channel()
+@is_faction_none()
 async def army_list(ctx, option):
     if option == "current_army":
         formatted_list = "\n".join([f"• {army}" for army in ctx.bot.agent.current_army_list])
