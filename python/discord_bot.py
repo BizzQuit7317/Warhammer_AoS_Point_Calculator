@@ -139,6 +139,7 @@ async def army_list(ctx, option):
             await ctx.send("⏳ You took too long to respond. Command timed out.")
     if option == "clear_list":
         ctx.bot.agent.current_army_list = []
+        ctx.bot.agent.current_army_points = 0
         await ctx.send(f"✅ Successfully cleared army list!")
 
 bot.run(config['discord']['token'])
