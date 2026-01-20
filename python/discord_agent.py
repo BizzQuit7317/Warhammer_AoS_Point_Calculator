@@ -31,4 +31,4 @@ class Agent():
     "Sons of Behemat",
     "Endless Spells",
 ]
-
+        self.current_army_list = ["test", "test", "test"]
