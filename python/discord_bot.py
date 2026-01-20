@@ -132,6 +132,7 @@ async def army_list(ctx, option):
             for i, sublist in enumerate(ctx.bot.agent.current_army_list):
                 if sublist[0] == msg.content:
                     ctx.bot.agent.current_army_list.pop(i)  # Remove the item at this specific index
+                    ctx.bot.agent.current_army_points -= sublist[1]
                     break
             await ctx.send(f"✅ Successfully removed **{unit_name}** from your army list!")
 
