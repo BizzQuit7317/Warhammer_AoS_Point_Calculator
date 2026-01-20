@@ -113,7 +113,6 @@ async def army_list(ctx, option):
 
         except asyncio.TimeoutError:
             await ctx.send("⏳ You took too long to respond. Command timed out.")
-
     if option == "drop_unit":
         await ctx.send(f"What unit from the {ctx.bot.agent.faction} would you like to remove")
 
@@ -138,5 +137,8 @@ async def army_list(ctx, option):
 
         except asyncio.TimeoutError:
             await ctx.send("⏳ You took too long to respond. Command timed out.")
+    if option == "clear_list":
+        ctx.bot.agent.current_army_list = []
+        await ctx.send(f"✅ Successfully cleared army list!")
 
 bot.run(config['discord']['token'])
