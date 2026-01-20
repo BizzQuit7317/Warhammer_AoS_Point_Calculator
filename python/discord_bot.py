@@ -34,9 +34,6 @@ async def check_stats(ctx, stat):
     if stat.lower() == "list_factions":
         formatted_list = "\n".join([f"• {faction}" for faction in ctx.bot.agent.factions_list])
         await ctx.send(f"**Available Warhammer AoS Factions:**\n```text\n{formatted_list}\n```")
-    if stat.lower() == "current_army":
-        formatted_list = "\n".join([f"• {army}" for army in ctx.bot.agent.current_army_list])
-        await ctx.send(f"**Current Army List:**\n```text\n{formatted_list}\n```")
 
 @bot.command()
 @is_correct_channel()
@@ -74,7 +71,11 @@ async def get_points(ctx, unit):
 
 @bot.command()
 @is_correct_channel()
-async def build_list(ctx):
-    print("coming soon")
+async def army_list(ctx, option):
+    if option == "current_army":
+        formatted_list = "\n".join([f"• {army}" for army in ctx.bot.agent.current_army_list])
+        await ctx.send(f"**Current Army List:**\n```text\n{formatted_list}\n```")
+    if option == "add_unit":
+        print("need some function to add units to this list or maybe df???")
 
 bot.run(config['discord']['token'])
