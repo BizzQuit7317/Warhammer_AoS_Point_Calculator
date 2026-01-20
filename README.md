@@ -2,7 +2,6 @@
 Powered by wahapedia, a simple script to scrape the html of the page and return the points for a unit.
 
 # To Do:
-- Clean up the debugging function on the bot they're not needed anymore
 - Look for any code or function that can be cleaned up a bit, make things neater (most likley the standard endpoints and common search terms into a json or something we can handle quick)
 - Remove spaces and add hyphens for unit and faction names
 - Implement a list building option
