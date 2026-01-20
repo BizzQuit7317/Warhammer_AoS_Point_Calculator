@@ -105,9 +105,10 @@ async def army_list(ctx, option):
             
             if points != 0:
                 ctx.bot.agent.current_army_list.append([unit_name, points])
+                ctx.bot.agent.current_army_points += points
                 await ctx.send(f"✅ Successfully added **{unit_name}** to your army list!")
             else:
-                await ctx.send(f"Failed adding **{unit_name}** to your army list! Check units for spellings")
+                await ctx.send(f"❌ Failed adding **{unit_name}** to your army list! Check units for spellings")
 
         except asyncio.TimeoutError:
             await ctx.send("⏳ You took too long to respond. Command timed out.")
