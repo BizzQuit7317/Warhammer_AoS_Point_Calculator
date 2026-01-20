@@ -85,6 +85,7 @@ async def army_list(ctx, option):
     if option == "current_army":
         formatted_list = "\n".join([f"• {army}" for army in ctx.bot.agent.current_army_list])
         await ctx.send(f"**Current Army List:**\n```text\n{formatted_list}\n```")
+        await ctx.send(f"Current Army Points: {ctx.bot.agent.current_army_points}")
     if option == "add_unit":
         await ctx.send(f"What unit from the {ctx.bot.agent.faction} would you like to add")
 
