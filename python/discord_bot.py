@@ -35,8 +35,24 @@ async def on_ready():
 @bot.command()
 @is_correct_channel()
 async def man(ctx):
-    await ctx.send(f"This is the man page hopefully it helps, remeber if your using a unit or army with a space wrap it in ""\nYou can check you current faction with or check all factions: !check_stats <faction/list_factions>\nYou can set a faction with: !set_faction <faction name>\nYou can check all units in a faction with: !check_units\nYou can check the points for a unit in your set faction with: !get_points <unit>")
-
+    await ctx.send(
+    "### 📖 Bot Manual (Man Page)\n"
+    "> *Note: If a unit or army name has a space, wrap it in double quotes (e.g., `\"Space Marines\"`)*\n"
+    "```yaml\n"
+    "# FACTION COMMANDS\n"
+    "!check_stats <faction>      : Check stats for a faction\n"
+    "!check_stats list_factions  : List all available factions\n"
+    "!set_faction <name>         : Set your active faction\n"
+    "!check_units                : View all units in your current faction\n"
+    "!get_points <unit>          : Get points for a specific unit\n\n"
+    "# ARMY LIST BUILDER\n"
+    "!army_list current_army     : View your current army list\n"
+    "!army_list add_unit         : Add a unit (starts interactive prompt)\n"
+    "!army_list remove_unit      : Remove a unit from your list\n"
+    "!army_list clear_list       : Wipe your entire list\n"
+    "```"
+)
+    
 @bot.command()
 @is_correct_channel()
 async def check_stats(ctx, stat):
